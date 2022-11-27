@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/cerberus-ui/static/css/main.955abe20.css",
+    "main.js": "/cerberus-ui/static/js/main.a93672e8.js",
+    "static/js/787.d1d4a2c2.chunk.js": "/cerberus-ui/static/js/787.d1d4a2c2.chunk.js",
+    "index.html": "/cerberus-ui/index.html",
+    "main.955abe20.css.map": "/cerberus-ui/static/css/main.955abe20.css.map",
+    "main.a93672e8.js.map": "/cerberus-ui/static/js/main.a93672e8.js.map",
+    "787.d1d4a2c2.chunk.js.map": "/cerberus-ui/static/js/787.d1d4a2c2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.955abe20.css",
+    "static/js/main.a93672e8.js"
+  ]
+}
