@@ -29,7 +29,7 @@ function Cerberus() {
 
     return (
       <BrowserRouter>
-          <CerberusProvider apiUrl={`${process.env.REACT_APP_API_HOST}/api/`} socketUrl={socketUrl}>
+          <CerberusProvider apiUrl={`${process.env.REACT_APP_CERBERUS_API_HOST}/api/`} socketUrl={socketUrl}>
           <div id="pgside">
               <Navmenu/>
           </div>

@@ -21,7 +21,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
+            fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
                 method: "get",
                 headers: hdrs
             })
@@ -47,7 +47,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
+            fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
                 method: "post",
                 headers: hdrs,
                 body: JSON.stringify(body)
@@ -72,7 +72,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
+            fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
                 method: "put",
                 headers: hdrs,
                 body: JSON.stringify(body)
@@ -97,7 +97,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
+            fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
                 method: "delete",
                 headers: hdrs
             })
@@ -120,7 +120,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
+            fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
                 method: "post",
                 headers: hdrs,
                 body: form
