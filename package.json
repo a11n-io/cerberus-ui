@@ -1,9 +1,9 @@
 {
   "name": "web",
   "version": "0.1.0",
-  "homepage": "https://a11n-io.github.io/cerberus-ui",
+  "homepage": "https://cerberus.a11n-io",
   "private": true,
-  "proxy": "http://cerberus-app:8080",
+  "proxy": "https://cerberus-api.a11n-io",
   "dependencies": {
     "@a11n-io/react-use-oauth2": "^1.0.18",
     "@naisutech/react-tree": "^3.1.0",
