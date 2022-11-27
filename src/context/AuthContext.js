@@ -1,10 +1,18 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import useLocalStorageState from 'use-local-storage-state';
 
 const AuthContext = createContext(null)
 
 function AuthProvider(props) {
-    const [user, setUser] = useState(null)
+
+    const [user, setUser] = useLocalStorageState(
+        `a11n-cerberus-user`,
+            {
+                defaultValue: null,
+            }
+    );
+
     const [logouts, setLogouts] = useState([])
 
     const logout = () => {

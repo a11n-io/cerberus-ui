@@ -15,7 +15,7 @@ export default function OAuthLogin(props) {
     const notificationCtx = useContext(NotificationContext)
 
     const {tokenUrl, hash} = props
-    let exchangeUrl = tokenUrl
+    let exchangeUrl = process.env.REACT_APP_WEB_HOST + tokenUrl
 
     if (hash) {
         exchangeUrl = exchangeUrl + "?hash="+hash
@@ -60,7 +60,7 @@ export default function OAuthLogin(props) {
     function handleOAuthPayload(payload) {
         if (payload.data) {
             auth.setUser(payload.data)
-            cerberusCtx.setCerberusToken(payload.data.token)
+            cerberusCtx.setApiToken(payload.data.token)
             navigate("/")
         }
     }

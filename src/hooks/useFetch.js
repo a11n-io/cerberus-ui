@@ -21,11 +21,13 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(baseUrl + url, {
+            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
                 method: "get",
                 headers: hdrs
             })
-                .then(response => response.json())
+                .then(response => {
+                    return response.json()
+                })
                 .then((data) => {
                     setLoading(false)
                     if (!data || !data.data) {
@@ -45,7 +47,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(baseUrl + url, {
+            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
                 method: "post",
                 headers: hdrs,
                 body: JSON.stringify(body)
@@ -70,7 +72,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(baseUrl + url, {
+            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
                 method: "put",
                 headers: hdrs,
                 body: JSON.stringify(body)
@@ -95,7 +97,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(baseUrl + url, {
+            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
                 method: "delete",
                 headers: hdrs
             })
@@ -118,7 +120,7 @@ export default function useFetch(baseUrl) {
 
         return new Promise((resolve, reject) => {
             setLoading(true);
-            fetch(baseUrl + url, {
+            fetch(`${process.env.REACT_APP_WEB_HOST}${baseUrl}${url}`, {
                 method: "post",
                 headers: hdrs,
                 body: form

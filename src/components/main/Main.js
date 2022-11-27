@@ -39,7 +39,7 @@ function Settings () {
             <Card.Body>
                 <Tabs defaultActiveKey='permissions' className='mb-3'>
                     <Tab eventKey='permissions' title='Permissions'>
-                        <Permissions resourceId={auth.user.accountId} />
+                        <Permissions resourceId={auth.user.accountId} changeAction="ManageAccountPermissions"/>
                     </Tab>
                     <Tab eventKey='users' title='Users'>
                         <Users NoUserSelectedComponent={Invitations}/>

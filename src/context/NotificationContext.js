@@ -6,16 +6,22 @@ function NotificationProvider(props) {
     const [notifications, setNotifications] = useState([])
 
     const info = (header, message) => {
-        setNotifications(prev => [...prev, { id: Date.now(), variant: "info", header: header, message: message}])
+        if (message) {
+            setNotifications(prev => [...prev, {id: Date.now(), variant: "info", header: header, message: message}])
+        }
     }
 
     const warning = (header, message) => {
-        setNotifications(prev => [...prev, { id: Date.now(), variant: "warning", header: header, message: message}])
+        if (message) {
+            setNotifications(prev => [...prev, {id: Date.now(), variant: "warning", header: header, message: message}])
+        }
     }
 
     const error = (header, message) => {
-        console.error(header, message)
-        setNotifications(prev => [...prev, { id: Date.now(), variant: "danger", header: header, message: message}])
+        if (message) {
+            console.error(header, message)
+            setNotifications(prev => [...prev, {id: Date.now(), variant: "danger", header: header, message: message}])
+        }
     }
 
     const close = (id) => {

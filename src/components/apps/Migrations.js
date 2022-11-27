@@ -15,7 +15,7 @@ export default function Migrations() {
         get(`apps/${appCtx.app.id}/migrations`)
             .then(r => setMigrations(r))
             .catch(e => notificationCtx.error("get migrations", e.message))
-    }, [appCtx])
+    }, [appCtx.app])
 
     function handleRemoveClicked(e) {
         const version = e.target.getAttribute('data-val1')

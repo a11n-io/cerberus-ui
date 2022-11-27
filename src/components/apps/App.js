@@ -183,7 +183,7 @@ function AppPermissions() {
         <Card className="mt-2">
             <Card.Header><h1>{appCtx.app.name} Permissions</h1></Card.Header>
             <Card.Body>
-                <Permissions resourceId={appCtx.app.id} />
+                <Permissions resourceId={appCtx.app.id} changeAction="ManageAppPermissions"/>
             </Card.Body>
         </Card>
     </>
