@@ -21,17 +21,17 @@ export default function ResourceType(props) {
             </Card.Header>
             <Card.Body>
                 <Tabs
-                    defaultActiveKey="details"
+                    defaultActiveKey="actions"
                     className="mb-3"
                 >
-                    <Tab eventKey="details" title="Details">
-                        <Details resourceType={resourceType} setSelectedResourceType={setSelectedResourceType} setResourceTypes={setResourceTypes}/>
-                    </Tab>
-                    <Tab eventKey="add" title="Add">
-                        <CreateResourceType parentResourceType={resourceType} resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}/>
-                    </Tab>
                     <Tab eventKey="actions" title="Actions">
                         <Actions resourceType={resourceType}/>
+                    </Tab>
+                    <Tab eventKey="add" title="Add Child">
+                        <CreateResourceType parentResourceType={resourceType} resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}/>
+                    </Tab>
+                    <Tab eventKey="details" title="Details">
+                        <Details resourceType={resourceType} setSelectedResourceType={setSelectedResourceType} setResourceTypes={setResourceTypes}/>
                     </Tab>
                     {/*<Tab eventKey="permissions" title="Permissions">*/}
                     {/*    <Permissions resourceId={resourceType.id} />*/}

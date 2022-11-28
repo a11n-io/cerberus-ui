@@ -32,20 +32,36 @@ function Home () {
 
 function Settings () {
     const auth = useContext(AuthContext)
+    const notificationCtx = useContext(NotificationContext)
+
+    function handlePermissionsError(e) {
+        notificationCtx.error('permissions', e.message)
+    }
+
+    function handleUsersError(e) {
+        notificationCtx.error('users', e.message)
+    }
+
+    function handleRolesError(e) {
+        notificationCtx.error('roles', e.message)
+    }
 
     return <>
         <Card className="mt-2">
             <Card.Header><h1>Cerberus Settings</h1></Card.Header>
             <Card.Body>
-                <Tabs defaultActiveKey='permissions' className='mb-3'>
-                    <Tab eventKey='permissions' title='Permissions'>
-                        <Permissions resourceId={auth.user.accountId} changeAction="ManageAccountPermissions"/>
-                    </Tab>
+                <Tabs defaultActiveKey='users' className='mb-3'>
                     <Tab eventKey='users' title='Users'>
-                        <Users NoUserSelectedComponent={Invitations}/>
+                        <Users NoUserSelectedComponent={Invitations} onError={handleUsersError}/>
                     </Tab>
                     <Tab eventKey='roles' title='Roles'>
-                        <Roles />
+                        <Roles onError={handleRolesError}/>
+                    </Tab>
+                    <Tab eventKey='permissions' title='Permissions'>
+                        <Permissions resourceId={auth.user.accountId} changeAction="ManageAccountPermissions" onError={handlePermissionsError}/>
+                    </Tab>
+                    <Tab eventKey='account' title='Account'>
+                        <Account />
                     </Tab>
                 </Tabs>
             </Card.Body>
@@ -185,3 +201,8 @@ function InviteUser(props) {
     )
 }
 
+function Account() {
+    return <>
+    acc
+    </>
+}

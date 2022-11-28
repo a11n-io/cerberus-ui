@@ -50,7 +50,7 @@ export default function Actions(props) {
 
         <Container>
             <Row>
-                <Col sm={4}>
+                <Col sm={6}>
 
                     <ListGroup>
                         {actions.map((action) => {
@@ -72,7 +72,7 @@ export default function Actions(props) {
                     </ListGroup>
 
                 </Col>
-                <Col sm={8}>
+                <Col sm={6}>
                     {
                         selectedAction
                             ? <Action

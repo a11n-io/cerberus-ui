@@ -10,7 +10,7 @@ export default function CreateApp() {
     const auth = useContext(AuthContext)
     const navigate = useNavigate()
     const [name, setName] = useState()
-    const [domain, setDomain] = useState()
+    const [description, setDescription] = useState()
     const {post, loading} = useFetch("/api/")
     const notificationCtx = useContext(NotificationContext)
 
@@ -18,7 +18,7 @@ export default function CreateApp() {
         e.preventDefault()
         post("accounts/"+auth.user.accountId+"/apps", {
             name: name,
-            domain: domain
+            description: description
         })
             .then(r => {
                 if (r) {
@@ -32,8 +32,8 @@ export default function CreateApp() {
         setName(e.target.value)
     }
 
-    function handleDomainChanged(e) {
-        setDomain(e.target.value)
+    function handleDescriptionChanged(e) {
+        setDescription(e.target.value)
     }
 
     if (loading) {
@@ -47,9 +47,9 @@ export default function CreateApp() {
                 <Form.Control type="text" placeholder="Enter app name" onChange={handleNameChanged}/>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicDomain">
-                <Form.Label>Domain</Form.Label>
-                <Form.Control type="text" placeholder="Enter unique app domain" onChange={handleDomainChanged}/>
+            <Form.Group className="mb-3" controlId="formBasicDescription">
+                <Form.Label>Description</Form.Label>
+                <Form.Control type="text" placeholder="Enter app description" onChange={handleDescriptionChanged}/>
             </Form.Group>
             <Button variant="primary" type="submit">
                 Create

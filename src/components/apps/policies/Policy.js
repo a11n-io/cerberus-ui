@@ -49,14 +49,14 @@ function Dashboard(props) {
             </Card.Header>
             <Card.Body>
                 <Tabs
-                    defaultActiveKey="details"
+                    defaultActiveKey="actions"
                     className="mb-3"
                 >
-                    <Tab eventKey="details" title="Details">
-                        <Details policy={policy} setSelectedPolicy={setSelectedPolicy} setPolicies={setPolicies}/>
-                    </Tab>
                     <Tab eventKey="actions" title="Actions">
                         <Actions policy={policy} resourceTypes={resourceTypes} setResourceTypes={setResourceTypes}/>
+                    </Tab>
+                    <Tab eventKey="details" title="Details">
+                        <Details policy={policy} setSelectedPolicy={setSelectedPolicy} setPolicies={setPolicies}/>
                     </Tab>
                     {/*<Tab eventKey="permissions" title="Permissions">*/}
                     {/*    <Permissions resourceId={policy.id} />*/}

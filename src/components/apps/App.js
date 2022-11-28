@@ -56,7 +56,7 @@ function AppDashboard() {
     const appCtx = useContext(AppContext)
     const auth = useContext(AuthContext)
     const [name, setName] = useState("")
-    const [domain, setDomain] = useState("")
+    const [description, setDescription] = useState("")
     const [apiKey, setApiKey] = useState("")
     const [apiSecret, setApiSecret] = useState("")
     const {put, del, post, loading} = useFetch("/api/")
@@ -64,7 +64,7 @@ function AppDashboard() {
 
     useEffect(() => {
         setName(appCtx.app.name)
-        setDomain(appCtx.app.domain)
+        setDescription(appCtx.app.description)
         setApiKey(appCtx.app.apiKey)
         setApiSecret(appCtx.app.apiSecret)
     }, [appCtx])
@@ -73,7 +73,7 @@ function AppDashboard() {
         e.preventDefault()
         put(`accounts/${auth.user.accountId}/apps/${appCtx.app.id}`, {
             name: name,
-            domain: domain
+            description: description
         })
             .then(r => {
                 if (r) {
@@ -98,8 +98,8 @@ function AppDashboard() {
         setName(e.target.value)
     }
 
-    function handleDomainChanged(e) {
-        setDomain(e.target.value)
+    function handleDescriptionChanged(e) {
+        setDescription(e.target.value)
     }
 
     function handleRemoveClicked() {
@@ -130,8 +130,8 @@ function AppDashboard() {
                                     <Form.Control type="text" value={name} placeholder="Enter app name" onChange={handleNameChanged}/>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>App domain</Form.Label>
-                                    <Form.Control type="text" value={domain} placeholder="Enter app domain" onChange={handleDomainChanged}/>
+                                    <Form.Label>App description</Form.Label>
+                                    <Form.Control type="text" value={description} placeholder="Enter app description" onChange={handleDescriptionChanged}/>
                                 </Form.Group>
 
                                 <Button variant="primary" type="submit">
@@ -178,12 +178,17 @@ function AppDashboard() {
 
 function AppPermissions() {
     const appCtx = useContext(AppContext)
+    const notificationCtx = useContext(NotificationContext)
+
+    function handlePermissionsError(e) {
+        notificationCtx.error('permissions', e.message)
+    }
 
     return <>
         <Card className="mt-2">
             <Card.Header><h1>{appCtx.app.name} Permissions</h1></Card.Header>
             <Card.Body>
-                <Permissions resourceId={appCtx.app.id} changeAction="ManageAppPermissions"/>
+                <Permissions resourceId={appCtx.app.id} changeAction="ManageAppPermissions" onError={handlePermissionsError}/>
             </Card.Body>
         </Card>
     </>

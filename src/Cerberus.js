@@ -4,7 +4,7 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Navmenu from "./components/menu/Navmenu";
 import Main from "./components/main/Main";
-import {AuthContext, AuthGuard} from "./context/AuthContext";
+import {AuthGuard} from "./context/AuthContext";
 import {AppProvider} from "./components/apps/AppContext";
 import Navbar from "./components/navbar/Navbar";
 import {Container, Row, Col, ToastContainer, Toast} from 'react-bootstrap'
@@ -13,23 +13,15 @@ import {CerberusProvider} from "cerberus-reactjs";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import ResetPassword from "./components/resetpassword/ResetPassword";
 import {OAuthPopup} from "@a11n-io/react-use-oauth2";
-import {NotificationProvider, NotificationContext} from "./context/NotificationContext";
-import {useContext, useEffect, useState} from "react";
+import {NotificationContext} from "./context/NotificationContext";
+import {useContext} from "react";
 
 function Cerberus() {
     const notificationCtx = useContext(NotificationContext)
-    const authCtx = useContext(AuthContext)
-    const [socketUrl, setSocketUrl] = useState("")
-
-    useEffect(() => {
-        if (authCtx.user != null) {
-            setSocketUrl(`${process.env.REACT_APP_CERBERUS_WS_HOST}/api/token/${authCtx.user.token}`)
-        }
-    }, [authCtx])
 
     return (
       <BrowserRouter>
-          <CerberusProvider apiUrl={`${process.env.REACT_APP_CERBERUS_API_HOST}/api/`} socketUrl={socketUrl}>
+          <CerberusProvider apiHost={process.env.REACT_APP_CERBERUS_API_HOST} socketHost={process.env.REACT_APP_CERBERUS_WS_HOST}>
           <div id="pgside">
               <Navmenu/>
           </div>
