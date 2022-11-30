@@ -1,2 +1,0 @@
-# cerberus-ui
-Cerberus dashboard
