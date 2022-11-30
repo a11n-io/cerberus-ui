@@ -20,7 +20,7 @@ function Cerberus() {
     const notificationCtx = useContext(NotificationContext)
 
     return (
-      <BrowserRouter>
+      <BrowserRouter basemname={`/${process.env.PUBLIC_URL}`}>
           <CerberusProvider apiHost={process.env.REACT_APP_CERBERUS_API_HOST} socketHost={process.env.REACT_APP_CERBERUS_WS_HOST}>
           <div id="pgside">
               <Navmenu/>
