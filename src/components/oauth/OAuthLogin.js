@@ -15,7 +15,7 @@ export default function OAuthLogin(props) {
     const notificationCtx = useContext(NotificationContext)
 
     const {tokenUrl, hash} = props
-    let exchangeUrl = process.env.REACT_APP_CERBERUS_WEB_HOST + tokenUrl
+    let exchangeUrl = tokenUrl
 
     if (hash) {
         exchangeUrl = exchangeUrl + "?hash="+hash
@@ -27,7 +27,7 @@ export default function OAuthLogin(props) {
         redirectUri: `${document.location.origin}/callback`,
         scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile",
         responseType: "code",
-        exchangeCodeForTokenServerURL: exchangeUrl,
+        exchangeCodeForTokenServerURL: process.env.REACT_APP_CERBERUS_WEB_HOST + "/oauth/google/" + exchangeUrl,
         exchangeCodeForTokenMethod: "POST",
         onSuccess: (payload) => handleOAuthPayload(payload),
         onError: (error_) => notificationCtx.error("oauth", error_)
@@ -39,7 +39,7 @@ export default function OAuthLogin(props) {
         redirectUri: `${document.location.origin}/callback`,
         scope: "r_emailaddress r_liteprofile",
         responseType: "code",
-        exchangeCodeForTokenServerURL: exchangeUrl,
+        exchangeCodeForTokenServerURL: process.env.REACT_APP_CERBERUS_WEB_HOST + "/oauth/linkedin/" + exchangeUrl,
         exchangeCodeForTokenMethod: "POST",
         onSuccess: (payload) => handleOAuthPayload(payload),
         onError: (error_) => notificationCtx.error("oauth", error_)

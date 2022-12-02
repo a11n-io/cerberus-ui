@@ -71,6 +71,6 @@ export default function Register() {
             </Button>
         </Form>
         <hr/>
-        <OAuthLogin tokenUrl="/oauth/google/registertoken" hash={params.hash}/>
+        <OAuthLogin tokenUrl="registertoken" hash={params.hash}/>
     </>
 }

@@ -66,6 +66,6 @@ export default function Login() {
         <div><Link to="/register">Register</Link></div>
         <div><Link to="/forgotpassword">Forgot password</Link></div>
         <hr/>
-        <OAuthLogin tokenUrl="/oauth/google/logintoken"/>
+        <OAuthLogin tokenUrl="logintoken"/>
     </>
 }
