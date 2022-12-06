@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route, useParams} from "react-router-dom";
+import {BrowserRouter, Routes, Route, useSearchParams, Navigate, useNavigate} from "react-router-dom";
 // import './cerberus.css';
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
@@ -11,7 +11,6 @@ import {Container, Row, Col, ToastContainer, Toast} from 'react-bootstrap'
 import VerifyEmail from "./components/verifyemail/VerifyEmail";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import ResetPassword from "./components/resetpassword/ResetPassword";
-import {OAuthPopup} from "@a11n-io/react-use-oauth2";
 import {NotificationContext} from "./context/NotificationContext";
 import {useContext, useEffect} from "react";
 import useFetch from "./hooks/useFetch";
@@ -68,7 +67,7 @@ function Cerberus() {
                                   <Route exact path="/resetpassword/:hash" element={<ResetPassword/>}/>
                                   <Route exact path="/acceptinvitation/:hash" element={<Register/>}/>
                                   <Route exact path="/verifyemail/:hash" element={<VerifyEmail/>}/>
-                                  <Route path="/callback" element={<OAuthPopup />} />
+                                  <Route path="/callback" element={<OAuthCallback />} />
                               </Routes>
                               <ToastContainer position="top-end" className="p-3">
                               {
@@ -105,5 +104,10 @@ function Cerberus() {
   );
 }
 
+function OAuthCallback() {
+    return <>
+    Loading App...
+    </>
+}
 
 export default Cerberus;

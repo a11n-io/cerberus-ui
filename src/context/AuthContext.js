@@ -13,20 +13,13 @@ function AuthProvider(props) {
             }
     );
 
-    const [logouts, setLogouts] = useState([])
-
     const logout = () => {
         setUser(null)
-        logouts.forEach(l => {
-            l.logout()
-        })
     }
 
     const value = {
         user: user,
         setUser: setUser,
-        logouts: logouts,
-        setLogouts: setLogouts,
         logout: logout
     }
 
