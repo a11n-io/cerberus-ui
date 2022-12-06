@@ -10,8 +10,9 @@ export default function Navbar() {
 
     function handleLogout() {
         auth.logout()
-        cerberusCtx.setApiToken(null)
-        navigate("/login")
+        cerberusCtx.setApiAccessToken(null)
+        cerberusCtx.setApiRefreshToken(null)
+        // navigate("/login")
     }
 
     return <>

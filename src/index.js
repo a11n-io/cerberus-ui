@@ -6,15 +6,19 @@ import Cerberus from './Cerberus';
 import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "./context/AuthContext";
 import {NotificationProvider} from "./context/NotificationContext";
+import {CerberusProvider} from "cerberus-reactjs";
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-      <AuthProvider>
-          <NotificationProvider>
-            <Cerberus />
-          </NotificationProvider>
-      </AuthProvider>
+
+    <NotificationProvider>
+        <CerberusProvider apiHost={process.env.REACT_APP_CERBERUS_API_HOST} socketHost={process.env.REACT_APP_CERBERUS_WS_HOST}>
+            <AuthProvider>
+                <Cerberus />
+            </AuthProvider>
+        </CerberusProvider>
+    </NotificationProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

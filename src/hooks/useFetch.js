@@ -1,11 +1,9 @@
 import {useContext, useState} from "react";
 import {AuthContext} from "../context/AuthContext";
-import {NotificationContext} from "../context/NotificationContext";
 
 export default function useFetch(baseUrl) {
     const [loading, setLoading] = useState(false);
     const authCtx = useContext(AuthContext)
-    const notificationCtx = useContext(NotificationContext)
 
     const defaultHeaders = {
         "Content-Type": "application/json",
@@ -22,10 +20,14 @@ export default function useFetch(baseUrl) {
         return new Promise((resolve, reject) => {
             setLoading(true);
             fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
+                credentials: "include",
                 method: "get",
                 headers: hdrs
             })
                 .then(response => {
+                    if (response.status === 401) {
+                        authCtx.logout();
+                    }
                     return response.json()
                 })
                 .then((data) => {
@@ -37,6 +39,7 @@ export default function useFetch(baseUrl) {
                 })
                 .catch(error => {
                     setLoading(false);
+                    console.log(error)
                     reject(error);
                 });
         });
@@ -48,11 +51,17 @@ export default function useFetch(baseUrl) {
         return new Promise((resolve, reject) => {
             setLoading(true);
             fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
+                credentials: "include",
                 method: "post",
                 headers: hdrs,
                 body: JSON.stringify(body)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        authCtx.logout();
+                    }
+                    return response.json()
+                })
                 .then((data) => {
                     setLoading(false)
                     if (!data || !data.data) {
@@ -73,11 +82,17 @@ export default function useFetch(baseUrl) {
         return new Promise((resolve, reject) => {
             setLoading(true);
             fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
+                credentials: "include",
                 method: "put",
                 headers: hdrs,
                 body: JSON.stringify(body)
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        authCtx.logout();
+                    }
+                    return response.json()
+                })
                 .then((data) => {
                     setLoading(false)
                     if (!data || !data.data) {
@@ -98,10 +113,16 @@ export default function useFetch(baseUrl) {
         return new Promise((resolve, reject) => {
             setLoading(true);
             fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
+                credentials: "include",
                 method: "delete",
                 headers: hdrs
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        authCtx.logout();
+                    }
+                    return response.json()
+                })
                 .then((data) => {
                     setLoading(false)
                     if (!data || !data.data) {
@@ -121,11 +142,17 @@ export default function useFetch(baseUrl) {
         return new Promise((resolve, reject) => {
             setLoading(true);
             fetch(`${process.env.REACT_APP_CERBERUS_WEB_HOST}${baseUrl}${url}`, {
+                credentials: "include",
                 method: "post",
                 headers: hdrs,
                 body: form
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status === 401) {
+                        authCtx.logout();
+                    }
+                    return response.json()
+                })
                 .then((data) => {
                     setLoading(false)
                     if (!data || !data.data) {

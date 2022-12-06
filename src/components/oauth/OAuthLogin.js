@@ -60,7 +60,8 @@ export default function OAuthLogin(props) {
     function handleOAuthPayload(payload) {
         if (payload.data) {
             auth.setUser(payload.data)
-            cerberusCtx.setApiToken(payload.data.token)
+            cerberusCtx.setApiAccessToken(payload.data.token)
+            cerberusCtx.setApiRefreshToken(payload.data.refreshToken)
             navigate("/")
         }
     }

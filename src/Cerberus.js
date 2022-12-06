@@ -4,24 +4,49 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Navmenu from "./components/menu/Navmenu";
 import Main from "./components/main/Main";
-import {AuthGuard} from "./context/AuthContext";
+import {AuthContext, AuthGuard} from "./context/AuthContext";
 import {AppProvider} from "./components/apps/AppContext";
 import Navbar from "./components/navbar/Navbar";
 import {Container, Row, Col, ToastContainer, Toast} from 'react-bootstrap'
 import VerifyEmail from "./components/verifyemail/VerifyEmail";
-import {CerberusProvider} from "cerberus-reactjs";
 import ForgotPassword from "./components/forgotpassword/ForgotPassword";
 import ResetPassword from "./components/resetpassword/ResetPassword";
 import {OAuthPopup} from "@a11n-io/react-use-oauth2";
 import {NotificationContext} from "./context/NotificationContext";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
+import useFetch from "./hooks/useFetch";
+import {CerberusContext} from "cerberus-reactjs";
 
 function Cerberus() {
     const notificationCtx = useContext(NotificationContext)
+    const authCtx = useContext(AuthContext)
+    const cerberusCtx = useContext(CerberusContext)
+
+    const {post} = useFetch("/")
+
+    useEffect(() => {
+        const interval = setInterval(() => refreshToken(), 1000 * 60);
+        return () => clearInterval(interval);
+    }, [authCtx.user]);
+
+    const refreshToken = () => {
+
+        if (authCtx.user && authCtx.user.refreshToken) {
+
+            post("auth/refreshtoken", {
+                refreshToken: authCtx.user.refreshToken
+            })
+                .then(r => {
+                    authCtx.setUser(r)
+                    cerberusCtx.setApiAccessToken(r.token)
+                    cerberusCtx.setApiRefreshToken(r.refreshToken)
+                })
+                .catch(e => notificationCtx.error("refresh token", e.message))
+        }
+    }
 
     return (
       <BrowserRouter basemname={`/${process.env.PUBLIC_URL}`}>
-          <CerberusProvider apiHost={process.env.REACT_APP_CERBERUS_API_HOST} socketHost={process.env.REACT_APP_CERBERUS_WS_HOST}>
           <div id="pgside" className="m-2">
               <Navmenu/>
           </div>
@@ -76,8 +101,6 @@ function Cerberus() {
               </Container>
 
           </main>
-
-          </CerberusProvider>
       </BrowserRouter>
   );
 }
