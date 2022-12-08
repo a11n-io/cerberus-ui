@@ -1,18 +1,12 @@
 import {useContext} from "react";
 import {AuthContext, AuthGuard} from "../../context/AuthContext";
-import {useNavigate, Link, NavLink} from "react-router-dom";
-import {CerberusContext} from "cerberus-reactjs";
+import {NavLink} from "react-router-dom";
 
 export default function Navbar() {
     const auth = useContext(AuthContext)
-    const cerberusCtx = useContext(CerberusContext)
-    const navigate = useNavigate()
 
     function handleLogout() {
         auth.logout()
-        cerberusCtx.setApiAccessToken(null)
-        cerberusCtx.setApiRefreshToken(null)
-        // navigate("/login")
     }
 
     return <>

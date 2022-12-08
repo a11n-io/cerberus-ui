@@ -1,10 +1,12 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import useSessionStorageState from 'use-session-storage-state';
+import {CerberusContext} from "cerberus-reactjs";
 
 const AuthContext = createContext(null)
 
 function AuthProvider(props) {
+    const cerberusCtx = useContext(CerberusContext)
 
     const [user, setUser] = useSessionStorageState(
         `a11n-cerberus-user`,
@@ -15,11 +17,17 @@ function AuthProvider(props) {
 
     const logout = () => {
         setUser(null)
+        cerberusCtx.setApiTokenPair(null)
+    }
+
+    const login = (user) => {
+        setUser(user)
+        cerberusCtx.setApiTokenPair(user.tokenPair)
     }
 
     const value = {
         user: user,
-        setUser: setUser,
+        login: login,
         logout: logout
     }
 

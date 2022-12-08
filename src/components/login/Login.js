@@ -29,9 +29,8 @@ export default function Login() {
             password: password
         }, {"Authorization": basicAuth})
             .then(r => {
-                auth.setUser(r)
-                cerberusCtx.setApiAccessToken(r.token)
-                cerberusCtx.setApiRefreshToken(r.refreshToken)
+                auth.Login(r)
+                cerberusCtx.setApiTokenPair(r.tokenPair)
                 navigate("/")
             })
             .catch(e => notificationCtx.error("login", e.message))

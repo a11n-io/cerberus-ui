@@ -18,31 +18,29 @@ import {CerberusContext} from "cerberus-reactjs";
 
 function Cerberus() {
     const notificationCtx = useContext(NotificationContext)
-    const authCtx = useContext(AuthContext)
-    const cerberusCtx = useContext(CerberusContext)
+    // const authCtx = useContext(AuthContext)
+    // const cerberusCtx = useContext(CerberusContext)
 
-    const {post} = useFetch("/")
-
-    useEffect(() => {
-        const interval = setInterval(() => refreshToken(), 1000 * 60);
-        return () => clearInterval(interval);
-    }, [authCtx.user]);
-
-    const refreshToken = () => {
-
-        if (authCtx.user && authCtx.user.refreshToken) {
-
-            post("auth/refreshtoken", {
-                refreshToken: authCtx.user.refreshToken
-            })
-                .then(r => {
-                    authCtx.setUser(r)
-                    cerberusCtx.setApiAccessToken(r.token)
-                    cerberusCtx.setApiRefreshToken(r.refreshToken)
-                })
-                .catch(e => notificationCtx.error("refresh token", e.message))
-        }
-    }
+    // const {post} = useFetch("/")
+    //
+    // useEffect(() => {
+    //     const interval = setInterval(() => refreshToken(), 1000 * 60);
+    //     return () => clearInterval(interval);
+    // }, [authCtx.user]);
+    //
+    // const refreshToken = () => {
+    //
+    //     if (authCtx.user && authCtx.user.refreshToken) {
+    //
+    //         post("auth/refreshtoken", {
+    //             refreshToken: authCtx.user.refreshToken
+    //         })
+    //             .then(r => {
+    //                 authCtx.login(r)
+    //             })
+    //             .catch(e => notificationCtx.error("refresh token", e.message))
+    //     }
+    // }
 
     return (
       <BrowserRouter basemname={`/${process.env.PUBLIC_URL}`}>

@@ -1,17 +1,19 @@
 import {useContext, useState} from "react";
 import {AuthContext} from "../context/AuthContext";
+import {CerberusContext} from "cerberus-reactjs";
 
 export default function useFetch(baseUrl) {
     const [loading, setLoading] = useState(false);
     const authCtx = useContext(AuthContext)
+    const cerberusCtx = useContext(CerberusContext)
 
     const defaultHeaders = {
         "Content-Type": "application/json",
     }
 
     let hdrs = defaultHeaders
-    if (authCtx.user) {
-        hdrs = { ...hdrs, Authorization: 'Bearer ' + authCtx.user.token }
+    if (cerberusCtx.apiTokenPair) {
+        hdrs = { ...hdrs, Authorization: 'Bearer ' + cerberusCtx.apiTokenPair.accessToken }
     }
 
     function get(url, headers) {

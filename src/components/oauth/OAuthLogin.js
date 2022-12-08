@@ -19,9 +19,7 @@ export default function OAuthLogin(props) {
     function onGoogleSuccess(code) {
         post(`oauth/google/logintoken?code=${code.code}&client_id=877652437993-vona3ljjsvsshf0872krlum94oe3qo2t.apps.googleusercontent.com&redirect_uri=${document.location.origin}/callback`)
             .then(r => {
-                auth.setUser(r)
-                cerberusCtx.setApiAccessToken(r.token)
-                cerberusCtx.setApiRefreshToken(r.refreshToken)
+                auth.login(r)
                 navigate("/")
             })
             .catch(e => notificationCtx.error("oauth", e.message))
@@ -30,9 +28,7 @@ export default function OAuthLogin(props) {
     function onLinkedinSuccess(code) {
         post(`oauth/linkedin/logintoken?code=${code.code}&client_id=78y898ongwju70&redirect_uri=${document.location.origin}/callback`)
             .then(r => {
-                auth.setUser(r)
-                cerberusCtx.setApiAccessToken(r.token)
-                cerberusCtx.setApiRefreshToken(r.refreshToken)
+                auth.login(r)
                 navigate("/")
             })
             .catch(e => notificationCtx.error("oauth", e.message))
