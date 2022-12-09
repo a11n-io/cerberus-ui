@@ -6,7 +6,7 @@ import Cerberus from './Cerberus';
 import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "./context/AuthContext";
 import {NotificationProvider} from "./context/NotificationContext";
-import {CerberusProvider} from "cerberus-reactjs";
+import {CerberusProvider} from "@a11n-io/cerberus-reactjs";
 
 const container = document.getElementById('root');
 const root = createRoot(container);

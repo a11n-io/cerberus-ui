@@ -14,7 +14,7 @@ import ResetPassword from "./components/resetpassword/ResetPassword";
 import {NotificationContext} from "./context/NotificationContext";
 import {useContext, useEffect} from "react";
 import useFetch from "./hooks/useFetch";
-import {CerberusContext} from "cerberus-reactjs";
+import {CerberusContext} from "@a11n-io/cerberus-reactjs";
 
 function Cerberus() {
     const notificationCtx = useContext(NotificationContext)

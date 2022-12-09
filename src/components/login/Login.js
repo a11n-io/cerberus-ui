@@ -6,7 +6,7 @@ import {useContext, useEffect, useState} from "react";
 import {encode} from "base-64"
 import {AuthContext} from "../../context/AuthContext";
 import {Button, Form} from "react-bootstrap";
-import {CerberusContext} from "cerberus-reactjs";
+import {CerberusContext} from "@a11n-io/cerberus-reactjs";
 import OAuthLogin from "../oauth/OAuthLogin";
 import {NotificationContext} from "../../context/NotificationContext";
 

@@ -1,7 +1,7 @@
 
 import {useContext, useEffect} from "react";
 import {AuthContext} from "../../context/AuthContext";
-import {CerberusContext} from "cerberus-reactjs";
+import {CerberusContext} from "@a11n-io/cerberus-reactjs";
 import {useNavigate} from "react-router-dom";
 import {NotificationContext} from "../../context/NotificationContext";
 import OAuth2Login from "react-simple-oauth2-login"

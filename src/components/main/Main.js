@@ -3,7 +3,7 @@ import Apps from "../apps/Apps";
 import {Button, Card, Form, ListGroup, Tab, Tabs, Toast} from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
-import {CerberusContext, Permissions, Roles, Users} from "cerberus-reactjs";
+import {CerberusContext, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs";
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
 import {NotificationContext} from "../../context/NotificationContext";

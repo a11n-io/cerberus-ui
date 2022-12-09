@@ -10,7 +10,7 @@ import {ResourceTypeProvider} from "./resourcetypes/ResourceTypeContext";
 import {AuthContext} from "../../context/AuthContext";
 import Form from "react-bootstrap/Form";
 import {Button, Col, Container, Row, Alert, Card} from "react-bootstrap";
-import {Permissions} from "cerberus-reactjs";
+import {Permissions} from "@a11n-io/cerberus-reactjs";
 import Migrations from "./Migrations";
 import {NotificationContext} from "../../context/NotificationContext";
 
