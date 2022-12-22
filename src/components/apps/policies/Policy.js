@@ -8,6 +8,7 @@ import {Button, Card, Col, Container, Row, Tab, Tabs} from "react-bootstrap";
 import {ReactTree} from "@naisutech/react-tree";
 import {AuthContext} from "../../../context/AuthContext";
 import {NotificationContext} from "../../../context/NotificationContext";
+import {Confirmation} from "@a11n-io/cerberus-reactjs";
 
 export default function Policy(props) {
 
@@ -75,6 +76,7 @@ function Details(props) {
     const [description, setDescription] = useState("")
     const {put, del, loading} = useFetch("/api/")
     const notificationCtx = useContext(NotificationContext)
+    const [deletingPolicy, setDeletingPolicy] = useState('')
 
     const {policy, setSelectedPolicy, setPolicies} = props
 
@@ -107,16 +109,23 @@ function Details(props) {
         setDescription(e.target.value)
     }
 
-
     function handleRemoveClicked() {
+        setDeletingPolicy(policy.id)
+    }
 
-        del(`apps/${appCtx.app.id}/policies/${policy.id}`)
+    function handleDenyDelete() {
+        setDeletingPolicy('')
+    }
+
+    function handleConfirmDelete() {
+        del(`apps/${appCtx.app.id}/policies/${deletingPolicy}`)
             .then(d => {
                 if (d) {
                     setSelectedPolicy(null)
                     setPolicies(prev => {
                         return prev.filter(p => p.id !== policy.id)
                     })
+                    setDeletingPolicy('')
                 }
             })
             .catch(e => notificationCtx.error("remove policy", e.message))
@@ -127,6 +136,13 @@ function Details(props) {
     }
 
     return <>
+        <Confirmation
+            onConfirm={handleConfirmDelete}
+            onDeny={handleDenyDelete}
+            show={deletingPolicy !== ''}
+            header='Delete Policy'
+            body={`This cannot be undone. Are you sure?`}
+        />
         <Form onSubmit={handleFormSubmit}>
             <Form.Group className="mb-3" >
                 <Form.Label>Policy name</Form.Label>

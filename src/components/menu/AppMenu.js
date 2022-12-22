@@ -9,6 +9,7 @@ import PoliciesMenu from "./PoliciesMenu";
 import AppPermissionsMenu from "./AppPermissionsMenu";
 import MigrationsMenu from "./MigrationsMenu";
 import {NotificationContext} from "../../context/NotificationContext";
+import DataMenu from "./DataMenu";
 
 export default function AppMenu() {
     const [app, setApp] = useState()
@@ -40,6 +41,7 @@ export default function AppMenu() {
             <Route path="migrations/*" element={<MigrationsMenu app={app}/>}/>
             <Route path="resourcetypes/*" element={<ResourceTypesMenu app={app}/>}/>
             <Route path="policies/*" element={<PoliciesMenu app={app}/>}/>
+            <Route path="accounts/*" element={<DataMenu app={app}/>}/>
         </Routes>
     </>
 
@@ -70,12 +72,11 @@ function Menu(props) {
             <NavLink end to={`/apps/${app.id}/policies`}>
                 <i className="ico fa-solid fa-file-shield"></i>
                 <i className="txt">Policies</i>
-
             </NavLink>
-            {/*<NavLink end to={`/apps/${app.id}/accounts`}>*/}
-            {/*    <i className="ico">&#9733;</i>*/}
-            {/*    <i className="txt">Accounts</i>*/}
-            {/*</NavLink>*/}
+            <NavLink end to={`/apps/${app.id}/accounts`}>
+                <i className="ico fa-solid fa-table"></i>
+                <i className="txt">Data</i>
+            </NavLink>
 
         </div>
     )

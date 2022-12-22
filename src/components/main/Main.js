@@ -3,10 +3,11 @@ import Apps from "../apps/Apps";
 import {Button, Card, Form, ListGroup, Tab, Tabs, Toast} from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
-import {CerberusContext, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs";
+import {Confirmation, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs";
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
 import {NotificationContext} from "../../context/NotificationContext";
+import "@a11n-io/cerberus-reactjs/dist/index.css"
 
 export default function Main() {
 
@@ -74,6 +75,7 @@ function Invitations() {
     const { get, put, del, loading } = useFetch('/api/')
     const [invitations, setInvitations] = useState([])
     const notificationCtx = useContext(NotificationContext)
+    const [deletingInvitation, setDeletingInvitation] = useState('')
 
     useEffect(() => {
         get(`invitations`)
@@ -91,15 +93,30 @@ function Invitations() {
 
     function handleInvitationRevokeClicked(e) {
         const invitationId = e.target.getAttribute('data-val1')
+        setDeletingInvitation(invitationId)
+    }
 
-        del(`invitations/${invitationId}`)
+    function handleDenyDelete() {
+        setDeletingInvitation('')
+    }
+
+    function handleConfirmDelete() {
+        del(`invitations/${deletingInvitation}`)
             .then(r => {
-                setInvitations((prev) => prev.filter(i => i.id !== invitationId))
+                setInvitations((prev) => prev.filter(i => i.id !== deletingInvitation))
+                setDeletingInvitation('')
             })
             .catch(e => notificationCtx.error("revoke invitation", e.message))
     }
 
     return <>
+        <Confirmation
+            onConfirm={handleConfirmDelete}
+            onDeny={handleDenyDelete}
+            show={deletingInvitation !== ''}
+            header='Delete Invitation'
+            body={`This will invalidate the invitation previously sent, but you can always send another one. Are you sure?`}
+        />
         <Card className="mb-5">
             <Card.Header>User Invitations</Card.Header>
             <Card.Body>
@@ -136,14 +153,21 @@ function InviteUser(props) {
     const [roles, setRoles] = useState([])
     const [selectedRole, setSelectedRole] = useState("")
     const notificationCtx = useContext(NotificationContext)
+    const auth = useContext(AuthContext)
 
     const {setInvitations} = props
 
     useEffect(() => {
-        get(`roles`)
-            .then(r => setRoles(r))
+        get(`accounts/${auth.user.accountId}/roles`)
+            .then(r => {
+                if (r && r.page) {
+                    setRoles(r.page)
+                } else {
+                    setRoles([])
+                }
+            })
             .catch(e => notificationCtx.error("get roles", e.message))
-    }, [])
+    }, [auth.user])
 
     function handleEmailChanged(e) {
         setEmail(e.target.value)
@@ -202,7 +226,44 @@ function InviteUser(props) {
 }
 
 function Account() {
+    const notificationCtx = useContext(NotificationContext)
+    const authCtx = useContext(AuthContext)
+    const { del, loading } = useFetch('/api/')
+    const [deletingAccount, setDeletingAccount] = useState('')
+
+    function handleDeleteClicked() {
+        setDeletingAccount(authCtx.user.accountId)
+    }
+
+    function handleDenyDelete() {
+        setDeletingAccount('')
+    }
+
+    function handleConfirmDelete() {
+        del(`accounts/${deletingAccount}`)
+            .then(r => {
+                setDeletingAccount('')
+                authCtx.logout()
+            })
+            .catch(e => notificationCtx.error("delete account", e.message))
+    }
+
+    if (loading) {
+        return <Loader />
+    }
+
     return <>
-    acc
+        <Confirmation
+            onConfirm={handleConfirmDelete}
+            onDeny={handleDenyDelete}
+            show={deletingAccount !== ''}
+            header='Delete Account'
+            body={`This cannot be undone and will delete all users, apps, accounts and data for the account.
+            Type "delete account" if you are sure.`}
+            test={`delete account`}
+        />
+        <Button variant="danger" className="ms-1" onClick={handleDeleteClicked}>
+            Delete Account
+        </Button>
     </>
 }

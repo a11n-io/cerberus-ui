@@ -1,12 +1,5 @@
 
-import {useContext, useEffect, useState} from "react";
 import {Link, NavLink, Route, Routes, useParams} from "react-router-dom";
-import {AuthContext} from "../../context/AuthContext";
-import useFetch from "../../hooks/useFetch";
-import Loader from "../../uikit/Loader";
-import {ResourceTypeContext} from "../apps/resourcetypes/ResourceTypeContext";
-import {AppContext, AppProvider} from "../apps/AppContext";
-import AppMenu from "./AppMenu";
 import ResourceTypeMenu from "./ResourceTypeMenu";
 
 export default function ResourceTypesMenu(props) {

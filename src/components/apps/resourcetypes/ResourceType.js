@@ -8,6 +8,7 @@ import Actions from "../actions/Actions";
 import {AuthContext} from "../../../context/AuthContext";
 import Loader from "../../../uikit/Loader";
 import {NotificationContext} from "../../../context/NotificationContext";
+import {Confirmation} from "@a11n-io/cerberus-reactjs";
 
 
 export default function ResourceType(props) {
@@ -49,6 +50,7 @@ function Details(props) {
     const [name, setName] = useState("")
     const {put, del, loading} = useFetch("/api/")
     const notificationCtx = useContext(NotificationContext)
+    const [deletingResourceType, setDeletingResourceType] = useState('')
 
     const {resourceType, setSelectedResourceType, setResourceTypes} = props
 
@@ -75,14 +77,22 @@ function Details(props) {
     }
 
     function handleRemoveClicked() {
+        setDeletingResourceType(resourceType.id)
+    }
 
-        del(`apps/${appCtx.app.id}/resourcetypes/${resourceType.id}`)
+    function handleDenyDelete() {
+        setDeletingResourceType('')
+    }
+
+    function handleConfirmDelete() {
+        del(`apps/${appCtx.app.id}/resourcetypes/${deletingResourceType}`)
             .then(d => {
                 if (d) {
                     setSelectedResourceType(null)
                     setResourceTypes(prev => {
                         return prev.filter(p => p.id !== resourceType.id)
                     })
+                    setDeletingResourceType('')
                 }
             })
             .catch(e => notificationCtx.error("remove resource type", e.message))
@@ -93,6 +103,13 @@ function Details(props) {
     }
 
     return <>
+        <Confirmation
+            onConfirm={handleConfirmDelete}
+            onDeny={handleDenyDelete}
+            show={deletingResourceType !== ''}
+            header='Delete Resource Type'
+            body={`This cannot be undone. Are you sure?`}
+        />
         <Form onSubmit={handleFormSubmit}>
             <Form.Group className="mb-3">
                 <Form.Label>Resource type name</Form.Label>

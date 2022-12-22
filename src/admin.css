@@ -132,6 +132,10 @@
   animation: rotator 1.4s linear infinite;
 }
 
+/* Table select row */
+tr.active > td {
+  background-color: #9497a6;
+}
 @keyframes rotator {
   0% {
     transform: rotate(0deg);

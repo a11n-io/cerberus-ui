@@ -2,7 +2,6 @@ import {Route, Routes, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
-import Accounts from "./accounts/Accounts";
 import ResourceTypes from "./resourcetypes/ResourceTypes";
 import {AppContext} from "./AppContext";
 import Policies from "./policies/Policies";
@@ -10,9 +9,10 @@ import {ResourceTypeProvider} from "./resourcetypes/ResourceTypeContext";
 import {AuthContext} from "../../context/AuthContext";
 import Form from "react-bootstrap/Form";
 import {Button, Col, Container, Row, Alert, Card} from "react-bootstrap";
-import {Permissions} from "@a11n-io/cerberus-reactjs";
+import {Confirmation, Permissions} from "@a11n-io/cerberus-reactjs";
 import Migrations from "./Migrations";
 import {NotificationContext} from "../../context/NotificationContext";
+import Accounts from "./data/Accounts";
 
 export default function App(props) {
     const params = useParams()
@@ -43,9 +43,9 @@ export default function App(props) {
             <Routes>
                 <Route exact path="permissions" element={<AppPermissions/>}/>
                 <Route exact path="migrations" element={<Migrations/>}/>
-                <Route path="accounts/*" element={<Accounts/>}/>
                 <Route path="resourcetypes/*" element={<ResourceTypes/>}/>
                 <Route path="policies/*" element={<Policies/>}/>
+                <Route path="accounts/*" element={<Accounts/>}/>
                 <Route exact path="/" element={<AppDashboard/>}/>
             </Routes>
         </ResourceTypeProvider>
@@ -61,6 +61,7 @@ function AppDashboard() {
     const [apiSecret, setApiSecret] = useState("")
     const {put, del, post, loading} = useFetch("/api/")
     const notificationCtx = useContext(NotificationContext)
+    const [deletingApp, setDeletingApp] = useState('')
 
     useEffect(() => {
         setName(appCtx.app.name)
@@ -103,11 +104,19 @@ function AppDashboard() {
     }
 
     function handleRemoveClicked() {
+        setDeletingApp(appCtx.app.id)
+    }
 
-        del(`accounts/${auth.user.accountId}/apps/${appCtx.app.id}`)
+    function handleDenyDelete() {
+        setDeletingApp('')
+    }
+
+    function handleConfirmDelete() {
+        del(`accounts/${auth.user.accountId}/apps/${deletingApp}`)
             .then(d => {
                 if (d) {
                     appCtx.setApp(null)
+                    setDeletingApp('')
                 }
             })
             .catch(e => notificationCtx.error("delete app", e.message))
@@ -118,6 +127,15 @@ function AppDashboard() {
     }
 
     return <>
+        <Confirmation
+            onConfirm={handleConfirmDelete}
+            onDeny={handleDenyDelete}
+            show={deletingApp !== ''}
+            header='Delete App'
+            body={`This cannot be undone and will delete all accounts and data for the app.
+            Type "delete ${appCtx.app.name}" if you are sure.`}
+            test={`delete ${appCtx.app.name}`}
+        />
         <Card className="mt-2">
             <Card.Header><h1>{appCtx.app.name} App</h1></Card.Header>
             <Card.Body>

@@ -1,14 +1,12 @@
 
 import {Link, Route, Routes} from "react-router-dom";
-import PolicyMenu from "./PolicyMenu";
 
-export default function PoliciesMenu(props) {
+export default function DataMenu(props) {
     const {app} = props
 
     return <>
         <Routes>
             <Route exact path="/" element={<Menu app={app}/>}/>
-            <Route path=":id/*" element={<PolicyMenu app={app}/>}/>
         </Routes>
     </>
 }

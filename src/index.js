@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './admin.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './admin.css';
 import Cerberus from './Cerberus';
 import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "./context/AuthContext";
