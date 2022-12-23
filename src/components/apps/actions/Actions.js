@@ -1,33 +1,48 @@
 
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import useFetch from "../../../hooks/useFetch";
 import Loader from "../../../uikit/Loader";
 import Action from "./Action";
 import CreateAction from "./CreateAction";
-import {Col, Container, ListGroup, Row} from "react-bootstrap";
+import {Col, Container, Form, ListGroup, Row} from "react-bootstrap";
 import {NotificationContext} from "../../../context/NotificationContext";
+import {Paginator} from "@a11n-io/cerberus-reactjs";
 
 export default function Actions(props) {
 
-    const [actions, setActions] = useState([])
     const {get, loading} = useFetch("/api/")
     const [selectedAction, setSelectedAction] = useState()
     const notificationCtx = useContext(NotificationContext)
+    const [actions, setActions] = useState([])
+    const [total, setTotal] = useState(0)
+    const [curPage, setCurPage] = useState(0)
+    const [filter, setFilter] = useState('')
+    const filterRef = useRef(null)
     const {resourceType} = props
 
     useEffect(() => {
-        get("resourcetypes/"+resourceType.id+"/actions")
-            .then(d => {
-                if (d) {
-                    setActions(d)
+        get(`resourcetypes/${resourceType.id}/actions?sort=name&order=asc&skip=${curPage * 10}&limit=10&filter=${filter}`)
+            .then(r => {
+                if (r && r.page) {
+                    setActions(r.page)
+                    setTotal(r.total)
+                } else {
+                    setActions([])
+                    setTotal(0)
                 }
             })
             .catch(e => {
                 notificationCtx.error("get actions", e.message)
-                setActions([])
             })
-    }, [resourceType])
+    }, [resourceType, curPage, filter])
 
+    useEffect(() => {
+        filterRef.current.focus()
+    }, [actions])
+
+    function handleFilterChange(e) {
+        setFilter(e.target.value)
+    }
 
     function handleActionSelected(e) {
         const actionId = e.target.getAttribute('data-val1')
@@ -51,7 +66,7 @@ export default function Actions(props) {
         <Container>
             <Row>
                 <Col sm={6}>
-
+                    <Form.Control placeholder='filter' ref={filterRef} onChange={handleFilterChange} value={filter} className='mb-1'/>
                     <ListGroup>
                         {actions.map((action) => {
                             return (
@@ -70,6 +85,13 @@ export default function Actions(props) {
                             )
                         })}
                     </ListGroup>
+                    <Paginator
+                        curPage={curPage}
+                        setCurPage={setCurPage}
+                        pageSize={10}
+                        pageWindowSize={3}
+                        total={total}
+                    />
 
                 </Col>
                 <Col sm={6}>

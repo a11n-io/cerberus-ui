@@ -1,23 +1,33 @@
 import {useContext, useEffect, useState} from "react";
 import {AppContext} from "./AppContext";
 import useFetch from "../../hooks/useFetch";
-import {Button, Card, Table} from "react-bootstrap";
+import {Button, Card, Form, Table} from "react-bootstrap";
 import Loader from "../../uikit/Loader";
 import {NotificationContext} from "../../context/NotificationContext";
-import {Confirmation} from "@a11n-io/cerberus-reactjs";
+import {Confirmation, Paginator} from "@a11n-io/cerberus-reactjs";
 
 export default function Migrations() {
     const appCtx = useContext(AppContext)
     const {get, del, loading} = useFetch("/api/")
-    const [migrations, setMigrations] = useState([])
     const notificationCtx = useContext(NotificationContext)
+    const [migrations, setMigrations] = useState([])
+    const [total, setTotal] = useState(0)
+    const [curPage, setCurPage] = useState(0)
     const [deletingMigration, setDeletingMigration] = useState('')
 
     useEffect(() => {
-        get(`apps/${appCtx.app.id}/migrations`)
-            .then(r => setMigrations(r))
+        get(`apps/${appCtx.app.id}/migrations?sort=version&order=desc&skip=${curPage * 20}&limit=20`)
+            .then(r => {
+                if (r && r.page) {
+                    setMigrations(r.page)
+                    setTotal(r.total)
+                } else {
+                    setMigrations([])
+                    setTotal(0)
+                }
+            })
             .catch(e => notificationCtx.error("get migrations", e.message))
-    }, [appCtx.app])
+    }, [appCtx.app, curPage])
 
     function handleRemoveClicked(e) {
         const version = e.target.getAttribute('data-val1')
@@ -40,10 +50,6 @@ export default function Migrations() {
 
     if (loading) {
         return <Loader/>
-    }
-
-    if (migrations.length === 0) {
-        return <p>You have no migrations yet</p>
     }
 
     return <>
@@ -79,6 +85,13 @@ export default function Migrations() {
                     }
                     </tbody>
                 </Table>
+                <Paginator
+                    curPage={curPage}
+                    setCurPage={setCurPage}
+                    pageSize={20}
+                    pageWindowSize={7}
+                    total={total}
+                />
             </Card.Body>
         </Card>
     </>
