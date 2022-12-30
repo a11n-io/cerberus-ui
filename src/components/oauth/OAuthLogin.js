@@ -7,6 +7,7 @@ import {NotificationContext} from "../../context/NotificationContext";
 import OAuth2Login from "react-simple-oauth2-login"
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
+import './OAuthLogin.css'
 
 export default function OAuthLogin(props) {
 
@@ -43,7 +44,7 @@ export default function OAuthLogin(props) {
     }
 
     return <>
-        <p>Or, sign in with:</p>
+        <p>Or :</p>
 
         <OAuth2Login
             authorizationUrl="https://accounts.google.com/o/oauth2/v2/auth"
@@ -53,8 +54,14 @@ export default function OAuthLogin(props) {
             scope="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
             onSuccess={onGoogleSuccess}
             onFailure={onError}
-            className="btn btn-danger m-2"
-        ><span className="fa fa-google m-1"/>Google</OAuth2Login>
+            className="login m-2"
+        >
+            <div className="google_login_btn">
+                <span className="icon"></span>
+                <span className="buttonText">Sign in with Google</span>
+            </div>
+
+        </OAuth2Login>
 
         <OAuth2Login
             authorizationUrl="https://www.linkedin.com/oauth/v2/authorization"
@@ -64,7 +71,12 @@ export default function OAuthLogin(props) {
             scope="r_emailaddress r_liteprofile"
             onSuccess={onLinkedinSuccess}
             onFailure={onError}
-            className="btn btn-primary m-2"
-        ><span className="fa fa-linkedin m-1"/>Linkedin</OAuth2Login>
+            className="login m-2"
+        >
+            <div className="linkedin_login_btn">
+                <span className="icon"></span>
+                <span className="buttonText">Sign in with Linkedin</span>
+            </div>
+        </OAuth2Login>
     </>
 }

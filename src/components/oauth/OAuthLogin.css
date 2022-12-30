@@ -1,0 +1,67 @@
+.login {
+    border: none;
+    padding: 1px;
+}
+
+.google_login_btn {
+    display: inline-block;
+    background: #4285F4;
+    color: white;
+    white-space: nowrap;
+}
+
+.google_login_btn:hover {
+    cursor: pointer;
+}
+
+.google_login_btn:active {
+    background: #3367D6;
+}
+
+.google_login_btn > span.icon {
+    background-image: url('btn_google_dark_normal_ios.svg');
+}
+
+.linkedin_login_btn {
+    display: inline-block;
+    background: #fff;
+    color: dimgrey;
+    white-space: nowrap;
+}
+
+.linked_login_btn:hover {
+    cursor: pointer;
+}
+
+.linkedin_login_btn:active {
+    background: #c0c0c0;
+}
+
+.linkedin_login_btn > span.icon {
+    background-image: url('btn_linkedin_normal.png');
+}
+
+span.label {
+    font-family: serif;
+    font-weight: normal;
+}
+
+span.icon {
+    background-repeat: no-repeat;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    width: 46px;
+    height: 46px;
+}
+
+span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: 'Roboto', sans-serif;
+}
