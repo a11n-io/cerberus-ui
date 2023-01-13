@@ -7,9 +7,28 @@ import {Confirmation, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
 import {NotificationContext} from "../../context/NotificationContext";
+import jwt_decode from "jwt-decode";
 import "@a11n-io/cerberus-reactjs/dist/index.css"
 
 export default function Main() {
+    // const authCtx = useContext(AuthContext)
+    // const [decoded, setDecoded] = useState('')
+    //
+    // useEffect(() => {
+    //     setDecoded(jwt_decode(authCtx.user.tokenPair.accessToken))
+    //     console.log(decoded)
+    // }, [authCtx.user])
+    //
+    // if (decoded && decoded[decoded['sub']]['stripeCustId'] === '') {
+    //     return <>
+    //         Please activate your subscription here.
+    //         Make sure to use '{decoded[decoded['sub']]['email']}' as your email.
+    //
+    //         <stripe-pricing-table pricing-table-id="prctbl_1MP7SQIO2n4JFgB7RTcBLnw2"
+    //                               publishable-key="pk_test_44OK1AQNun4SXTsrqJsCoIOp">
+    //         </stripe-pricing-table>
+    //     </>
+    // }
 
     return <>
         <Routes>
@@ -228,7 +247,7 @@ function InviteUser(props) {
 function Account() {
     const notificationCtx = useContext(NotificationContext)
     const authCtx = useContext(AuthContext)
-    const { del, loading } = useFetch('/api/')
+    const { del, post, loading } = useFetch('/api/')
     const [deletingAccount, setDeletingAccount] = useState('')
 
     function handleDeleteClicked() {
@@ -248,6 +267,13 @@ function Account() {
             .catch(e => notificationCtx.error("delete account", e.message))
     }
 
+    function handleBillingClicked() {
+        post(`accounts/${authCtx.user.accountId}/billing`)
+            .then(r => {
+                window.location.href = r
+            })
+            .catch(e => notificationCtx.error("billing", e.message))
+    }
     if (loading) {
         return <Loader />
     }
@@ -262,8 +288,11 @@ function Account() {
             Type "delete account" if you are sure.`}
             test={`delete account`}
         />
-        <Button variant="danger" className="ms-1" onClick={handleDeleteClicked}>
-            Delete Account
-        </Button>
+
+        {/*<Button variant="danger" className="ms-1" onClick={handleDeleteClicked}>*/}
+        {/*    Delete Account*/}
+        {/*</Button>*/}
+
+        <Button variant="primary" onClick={handleBillingClicked}>Manage billing</Button>
     </>
 }

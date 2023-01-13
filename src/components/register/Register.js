@@ -1,14 +1,21 @@
 import "./register.css"
 import useFetch from "../../hooks/useFetch";
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import Loader from "../../uikit/Loader";
-import {useNavigate, useParams} from "react-router-dom";
-import {Button, Form} from "react-bootstrap";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Alert, Button, Form} from "react-bootstrap";
 import OAuthLogin from "../oauth/OAuthLogin";
 import {NotificationContext} from "../../context/NotificationContext";
 
+function useQuery() {
+    const { search } = useLocation();
+
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}
+
 export default function Register() {
     const params = useParams()
+    const query = useQuery()
     const navigate = useNavigate()
     const {post, loading} = useFetch("/")
     const [name, setName] = useState()
@@ -47,6 +54,25 @@ export default function Register() {
     }
 
     return <>
+
+        {
+            query.get("message") && <Alert variant="success" className="m-2">
+                <Alert.Heading>
+                    {query.get("heading")}
+                </Alert.Heading>
+                <p>{query.get("message")}</p>
+            </Alert>
+        }
+
+        {
+            !params.hash && <Alert variant="warning" className="m-2">
+                <Alert.Heading>
+                    Choose a plan first
+                </Alert.Heading>
+                <p>Please choose a <a href="https://a11n.io/index.html#pricing" target="_self">subscription plan</a> before registering</p>
+            </Alert>
+        }
+
         <Form onSubmit={handleRegister}>
             <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Your name</Form.Label>
